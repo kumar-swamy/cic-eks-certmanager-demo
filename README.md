@@ -6,9 +6,13 @@
       ./bringup_cluster.sh
 ```
 4. There are four clusterissuer YAML files located in the repo. 
+
    clusterissuer-letsencrypt-staging.yaml -> HTTP01 challenge , staging server
+
    clusterissuer-letsencrypt-prod.yaml -> HTTP01 challenge, production server
+
    clusterissuer-dns-challenge-staging.yaml -> DNS01 challenge, staging server
+
    clusterissuer-dns-challenge-prod.yaml -> DNS01 challenge, production server
  
    edit the YAML files to update the valid email id in the ```email``` field. 
