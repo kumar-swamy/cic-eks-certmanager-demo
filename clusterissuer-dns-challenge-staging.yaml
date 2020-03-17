@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: isha.khurana@citrix.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: example-issuer-account-key
+    solvers:
+    - dns01:
+        route53:
+          region: eu-central-1
+          accessKeyID: AKIAXOTKIUNKOAG4XJP6
+          secretAccessKeySecretRef:
+            name: acme-route53
+            key: secret-access-key

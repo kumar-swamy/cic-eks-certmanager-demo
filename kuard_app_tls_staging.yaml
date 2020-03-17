@@ -1,0 +1,54 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kuard-deployment
+  labels:
+    app: kuard
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kuard
+  template:
+    metadata:
+      labels:
+        app: kuard
+    spec:
+      containers:
+        - image: gcr.io/kuar-demo/kuard-amd64:1
+          name: kuard
+          ports:
+            - containerPort: 8080
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuard-service
+spec:
+  selector:
+    app: kuard
+  ports:
+  - port: 80
+    targetPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kuard
+  annotations:
+    kubernetes.io/ingress.class: citrix 
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  tls:
+  - hosts:
+    - acme.citrixns.com
+    secretName: kuard-example-tls2
+  rules:
+  - host: acme.citrixns.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kuard-service
+          servicePort: 80
